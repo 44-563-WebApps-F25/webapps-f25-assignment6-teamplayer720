@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christian plans a meal</title>
+</head>
+<body>
+
+    <h1>[Christian plans a meal</h1>
+    
+    <hr>
+    
+    <form id="checkboxForm">
+        <p>Meal Components:</p>
+        <label>
+            <input type="checkbox" id="saladCheckbox" value="True">
+            Serve salad
+        </label>
+        <br>
+        
+        <label>
+            <input type="checkbox" id="stewCheckbox" value="True">
+            Make stew
+        </label>
+        <br>
+        
+        <label>
+            <input type="checkbox" id="chocolateCheckbox" value="False">
+            Chocolate for desert
+        </label>
+        <br><br>
+
+        <button type="button" onclick="choices()">Meal Choices</button>
+    </form>
+    
+    <div id="mealResult"></div>
+    
+    <hr>
+
+    <form id="updateForm">
+        <p>Update Meal Details:</p>
+        <label for="drinkInput">Enter drink</label>
+        <input type="text" id="drinkInput" value="Wine">
+        <br><br>
+
+        <label for="starterInput">Enter starter</label>
+        <input type="text" id="starterInput">
+        <br><br>
+
+        <button type="button" onclick="updateMeal()">Update the meal</button>
+    </form>
+
+    <script>
+
+        let my_meal = {}; 
+
+        function choices() {
+
+            my_meal = {}; 
+
+            my_meal.salad = document.getElementById('saladCheckbox').checked;
+            my_meal.stew = document.getElementById('stewCheckbox').checked;
+            my_meal.chocolate = document.getElementById('chocolateCheckbox').checked;
+            document.getElementById('mealResult').innerHTML = `Current Meal: ${JSON.stringify(my_meal)}`;
+        }
+
+        function updateMeal() {
+
+            const drinkValue = document.getElementById('drinkInput').value;
+            const starterValue = document.getElementById('starterInput').value;
+
+            my_meal['drink'] = drinkValue;
+            my_meal['starter'] = starterValue;
+
+            document.getElementById('mealResult').innerHTML = `Current Meal: ${JSON.stringify(my_meal)}`;
+        }
+    </script>
+
+</body>
+</html>
