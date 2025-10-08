@@ -71,6 +71,26 @@ function resolveRadio() {
         out.innerHTML = "Values were not confirmed"
     }
 }
+{
+  let usePic = 1;
+    function updatePic() {
+      const img = document.getElementById("plantPic");
+      switch (usePic) {
+        case 1:
+          img.src = "rose.jpg";
+          usePic = 2;
+          break;
+        case 2:
+          img.src = "orchid.jpg";
+          usePic = 3;
+          break;
+        default:
+          img.src = "sunflower.jpg";
+          usePic = 1;
+          break;
+      }
+    }
+  }
 
 </script>
 
