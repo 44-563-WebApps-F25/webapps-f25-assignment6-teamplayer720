@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christian Boswell message cost</title>
+</head>
+<body>
+
+    <h1>Christian Boswell message cost</h1>
+    
+    <hr>
+    
+    <form id="costForm">
+        <label for="standardCharge">Enter cost per letter</label>
+        <input type="number" id="standardCharge" value="0.50" step="0.01">
+        <br><br>
+
+        <label for="discountLength">Enter the length needed for the discount</label>
+        <input type="number" id="discountLength" value="20">
+        <br><br>
+
+        <label for="discountCharge">Enter the discount rate</label>
+        <input type="number" id="discountCharge" value="0.25" step="0.01">
+        <br><br>
+
+        <button type="button" onclick="amounts()">Show total</button>
+    </form>
+    
+    <div id="costResult"></div>
+    
+    <hr>
+
+    <form id="radioForm">
+        <p>Choose an operation:</p>
+        <label>
+            <input type="radio" name="operation" value="times" onclick="chooseOp()">
+            product
+        </label>
+        
+        <label>
+            <input type="radio" name="operation" value="add" onclick="chooseOp()">
+            sum
+        </label>
+        
+        <label>
+            <input type="radio" name="operation" value="mod" onclick="chooseOp()">
+            mod
+        </label>
+    </form>
+    
+    <div id="radioResult"></div>
+
+    <script>
+
+        function amounts() {
+            const standardCharge = parseFloat(document.getElementById('standardCharge').value);
+            const discountLength = parseInt(document.getElementById('discountLength').value);
+            const discountCharge = parseFloat(document.getElementById('discountCharge').value);
+            const resultElement = document.getElementById('costResult');
+            
+            let totalCosts = "";
+            for (let i = -3; i <= 3; i++) {
+                const size = discountLength + i;
+                let cost = 0;
+
+                if (size <= discountLength) {
+                    cost = size * standardCharge;
+                } else {
+                    const standardPart = discountLength * standardCharge;
+                    const discountPart = (size - discountLength) * discountCharge;
+                    cost = standardPart + discountPart;
+                }
+
+                totalCosts += `length ${size} is ${cost.toFixed(2)}; `;
+            }
+
+            resultElement.innerHTML = `Totals are: ${totalCosts}`;
+        }
+
+        function chooseOp() {
+            const price = parseFloat(document.getElementById('standardCharge').value);
+            const breakAt = parseInt(document.getElementById('discountLength').value);
+            const resultElement = document.getElementById('radioResult');
+            let operationResult = "";
+            
+            const radioButtons = document.getElementsByName('operation');
+            let selectedOp = "";
+            for (const radio of radioButtons) {
+                if (radio.checked) {
+                    selectedOp = radio.value;
+                    break;
+                }
+            }
+
+            if (selectedOp) {
+                let calculatedValue;
+                let symbol;
+                
+                if (selectedOp === "times") {
+                    calculatedValue = price * breakAt;
+                    symbol = "times";
+                } else if (selectedOp === "add") {
+                    calculatedValue = price + breakAt;
+                    symbol = "plus";
+                } else if (selectedOp === "mod") {
+
+                    const priceInt = Math.round(price); 
+                    calculatedValue = priceInt % breakAt;
+                    symbol = "mod";
+                    operationResult = `${priceInt} ${symbol} ${breakAt} is ${calculatedValue}`;
+                }
+
+                if (selectedOp !== "mod") {
+                   operationResult = `${price.toFixed(2)} ${symbol} ${breakAt} is ${calculatedValue.toFixed(2)}`;
+                }
+            }
+
+            resultElement.innerHTML = operationResult;
+        }
+    </script>
+
+</body>
+</html>
